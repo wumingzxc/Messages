@@ -9,7 +9,7 @@ import com.hswu.activity.SelectCategoryActivity;
 import com.hswu.bean.BaseBean;
 import com.hswu.bean.CreditCard;
 import com.hswu.database.DatabaseAdapter;
-import com.hswu.safebox.R;
+import com.hswu.messages.R;
 import com.hswu.util.URIField;
 
 import android.app.Fragment;
