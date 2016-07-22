@@ -4,7 +4,7 @@ import android.net.Uri;
 
 public class URIField {
 
-	public static final String DBNAME = "passwordmanager";
+	public static final String DBNAME = "messages";
 	public static final int VERSION = 1;
 	
 	

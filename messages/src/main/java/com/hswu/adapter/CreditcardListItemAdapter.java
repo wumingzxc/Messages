@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hswu.bean.CreditCard;
-import com.hswu.safebox.R;
+import com.hswu.messages.R;
 
 import java.util.List;
 

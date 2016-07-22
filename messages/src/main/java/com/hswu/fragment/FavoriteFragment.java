@@ -12,11 +12,7 @@ public class FavoriteFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		
-		
-		
-		
-		
+
 		return rootView;
 	}
 	

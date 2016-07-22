@@ -50,7 +50,7 @@ public class CategoryCreditCardActivity extends Activity implements OnClickListe
         listview = (ListView) findViewById(R.id.listview);
         iv_add = (ImageView) findViewById(R.id.iv_add);
 
-        cards = getIntent().getExtras().getParcelableArrayList("cards");
+        cards = getIntent().getBundleExtra("bundle").getParcelableArrayList("cards");
 
     }
 

@@ -1,17 +1,5 @@
 package com.hswu.fragment;
 
-import java.util.ArrayList;
-
-import com.hswu.activity.CategoryCreditCardActivity;
-import com.hswu.activity.CreditcardDetailActivity;
-import com.hswu.activity.HomePageActivity;
-import com.hswu.activity.SelectCategoryActivity;
-import com.hswu.bean.BaseBean;
-import com.hswu.bean.CreditCard;
-import com.hswu.database.DatabaseAdapter;
-import com.hswu.messages.R;
-import com.hswu.util.URIField;
-
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -27,6 +15,17 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.hswu.activity.CategoryCreditCardActivity;
+import com.hswu.activity.HomePageActivity;
+import com.hswu.activity.SelectCategoryActivity;
+import com.hswu.bean.BaseBean;
+import com.hswu.bean.CreditCard;
+import com.hswu.database.DatabaseAdapter;
+import com.hswu.messages.R;
+import com.hswu.util.URIField;
+
+import java.util.ArrayList;
 
 public class CategoryFragment extends Fragment implements OnClickListener{
 

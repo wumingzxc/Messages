@@ -2,16 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/creditcard_top_actionbar"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="50dp"
     android:background="#3399FF" >
 
     <ImageView
         android:id="@+id/iv_cancel"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
         android:contentDescription="@string/imageview_default_description"
         android:src="@mipmap/ic_action_cancel" />
 
@@ -22,10 +21,23 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/iv_cancel"
+        android:textSize="@dimen/top_actionbar_textsize"
         android:text="@string/cancel"
         android:textColor="#FFFFFF" />
 
-    
+
+
+    <ImageView
+        android:id="@+id/iv_save"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="5dp"
+        android:contentDescription="@string/imageview_default_description"
+        android:src="@mipmap/ic_action_tick"
+        android:layout_alignTop="@+id/iv_cancel"
+        android:layout_toStartOf="@+id/tv_save"/>
+
+
     <TextView
         android:id="@+id/tv_save"
         android:layout_width="wrap_content"
@@ -33,18 +45,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="8dp"
+        android:textSize="@dimen/top_actionbar_textsize"
         android:text="@string/save"
         android:textColor="#FFFFFF" />
-
-    <ImageView
-        android:id="@+id/iv_save"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignTop="@+id/iv_cancel"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="15dp"
-        android:layout_toStartOf="@+id/tv_save"
-        android:contentDescription="@string/imageview_default_description"
-        android:src="@mipmap/ic_action_tick" />
 
 </RelativeLayout>

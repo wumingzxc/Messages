@@ -1,11 +1,15 @@
 package com.hswu.database;
 
+import com.hswu.bean.BaseBean;
+import com.hswu.rowmapper.CreditCardRowMapper;
 import com.hswu.util.CursorTo;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
+
+import java.util.List;
 
 public class DatabaseAdapter {
 
@@ -31,11 +35,13 @@ public class DatabaseAdapter {
 		contentResolver.insert(uri, values);
 	}
 	
-	public Object queryData(Uri uri)
+	public List<? extends BaseBean> queryData(Uri uri)
 	{
-		return CursorTo.cursorToCreditCard(contentResolver.query(uri, null, null, null, null));
+		return CursorTo.cursorToBaseBean(contentResolver.query(uri, null, null, null, null),new CreditCardRowMapper());
 		
-	}public int updateData(Uri uri,ContentValues values, String selection, String[] selectionArgs)
+	}
+
+	public int updateData(Uri uri,ContentValues values, String selection, String[] selectionArgs)
 	{
 		int i = 0;
 		i = contentResolver.update(uri, values, selection, selectionArgs);
