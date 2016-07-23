@@ -2,6 +2,7 @@ package com.hswu.database;
 
 import com.hswu.bean.BaseBean;
 import com.hswu.rowmapper.CreditCardRowMapper;
+import com.hswu.rowmapper.RowMapper;
 import com.hswu.util.CursorTo;
 
 import android.content.ContentResolver;
@@ -35,9 +36,9 @@ public class DatabaseAdapter {
 		contentResolver.insert(uri, values);
 	}
 	
-	public List<? extends BaseBean> queryData(Uri uri)
+	public List<? extends BaseBean> queryData(Uri uri, RowMapper rowMapper)
 	{
-		return CursorTo.cursorToBaseBean(contentResolver.query(uri, null, null, null, null),new CreditCardRowMapper());
+		return CursorTo.cursorToBaseBean(contentResolver.query(uri, null, null, null, null),rowMapper);
 		
 	}
 

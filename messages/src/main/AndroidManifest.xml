@@ -35,6 +35,9 @@
         <activity android:name="com.hswu.activity.UpdateOrAddCreditcardActivity"></activity>
         <activity android:name="com.hswu.activity.ShowCreditcardDetailActivity"></activity>
         <activity android:name="com.hswu.activity.ShowCreditCardsActivity"></activity>
+        <activity android:name="com.hswu.activity.UpdateOrAddNoteActivity"></activity>
+        <activity android:name="com.hswu.activity.ShowNoteDetailActivity"></activity>
+        <activity android:name="com.hswu.activity.ShowNotesActivity"></activity>
 
     </application>
 

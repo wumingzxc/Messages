@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import com.hswu.activity.ShowCreditCardsActivity;
 import com.hswu.activity.HomePageActivity;
 import com.hswu.activity.SelectCategoryActivity;
+import com.hswu.activity.ShowNotesActivity;
 import com.hswu.bean.BaseBean;
 import com.hswu.bean.CreditCard;
 import com.hswu.database.DatabaseAdapter;
@@ -34,10 +35,6 @@ import java.util.ArrayList;
  */
 public class CategoryFragment extends Fragment implements OnClickListener{
 
-	private DatabaseAdapter dbAdapter;
-	private ArrayList<? extends BaseBean> cards;
-	private ShowCreditCardsActivity categoryCreditCardActivity;
-	private FragmentTransaction transaction;
 	private Intent intent;
 	private View rootView;
 	private ImageView iv_add;
@@ -61,9 +58,6 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 
 	private void init()
 	{
-		dbAdapter = DatabaseAdapter.getInstance(getActivity());
-		transaction = this.getFragmentManager().beginTransaction();
-		categoryCreditCardActivity = new ShowCreditCardsActivity();
 		rotateAnimation = (RotateAnimation) AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
 		
 		iv_add = (ImageView) rootView.findViewById(R.id.iv_add);
@@ -115,25 +109,18 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 			iv_left.startAnimation(rotateAnimation);
 			break;
 		case R.id.linearlayout_credit_card:
-			cards = (ArrayList<CreditCard>) dbAdapter.queryData(URIField.CREDITCARD_URI);
 			intent = new Intent(getActivity(), ShowCreditCardsActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("cards", (ArrayList<? extends Parcelable>) cards);
-            intent.putExtra("bundle",bundle);
             getActivity().startActivity(intent);
-
 			break;
 		case R.id.linearlayout_login:
 
 			break;
 		case R.id.linearlayout_note:
-
+			intent = new Intent(getActivity(), ShowNotesActivity.class);
+			getActivity().startActivity(intent);
 			break;
-			
-			
-			
 		}
-	
+
 	}
 	
 }

@@ -1,22 +1,18 @@
 package com.hswu.activity;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.View;
+import android.view.Window;
+import android.widget.EditText;
+
 import com.hswu.bean.CreditCard;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
 import com.hswu.util.GetContentValues;
 import com.hswu.util.URIField;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,10 +22,6 @@ import butterknife.Unbinder;
 public class UpdateOrAddCreditcardActivity extends Activity {
 
 
-    @BindView(R.id.iv_save) ImageView iv_save;
-    @BindView(R.id.tv_save) TextView tv_save;
-    @BindView(R.id.iv_cancel) ImageView iv_cancel;
-    @BindView(R.id.tv_cancel) TextView tv_cancel;
     @BindView(R.id.et_bankname) EditText et_bankname;
     @BindView(R.id.et_cardname) EditText et_cardname;
     @BindView(R.id.et_cardnumber) EditText et_cardnumber;

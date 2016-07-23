@@ -56,7 +56,11 @@ public class SelectCategoryActivity extends Activity implements OnClickListener 
 
 			break;
 		case R.id.linearlayout_note:
-
+			Intent intent1 = new Intent(SelectCategoryActivity.this, UpdateOrAddNoteActivity.class);
+			Bundle bundle1 = UpdateOrAddCreditcardActivity.paramNeeded(false,null);
+			intent1.putExtras(bundle1);
+			startActivity(intent1);
+			this.finish();
 			break;
 
 		}
