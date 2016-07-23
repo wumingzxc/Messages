@@ -32,9 +32,8 @@
             android:authorities="com.hswu.database.provider"
             android:exported="false"/>
 
-        <activity android:name="com.hswu.activity.AddCreditcardActivity"></activity>
+        <activity android:name="com.hswu.activity.UpdateOrAddCreditcardActivity"></activity>
         <activity android:name="com.hswu.activity.ShowCreditcardDetailActivity"></activity>
-        <activity android:name="com.hswu.activity.UpdateCreditCard"></activity>
         <activity android:name="com.hswu.activity.ShowCreditCardsActivity"></activity>
 
     </application>

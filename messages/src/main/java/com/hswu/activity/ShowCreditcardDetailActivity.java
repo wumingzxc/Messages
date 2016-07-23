@@ -105,11 +105,10 @@ public class ShowCreditcardDetailActivity extends Activity{
 					dialog.show();
 					break;
 				case R.id.menuUpdate:
-					Intent i = new Intent(ShowCreditcardDetailActivity.this, UpdateCreditCard.class);
-					Bundle bundle = new Bundle();
-					bundle.putParcelable("card", card);
-					i.putExtras(bundle);
-					startActivityForResult(i, 0);
+					Intent i = new Intent(ShowCreditcardDetailActivity.this, UpdateOrAddCreditcardActivity.class);
+                    Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(true,card);
+                    i.putExtras(bundle);
+                    startActivityForResult(i, 0);
 					break;
 				}
 				return true;
@@ -136,7 +135,7 @@ public class ShowCreditcardDetailActivity extends Activity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 0 && resultCode ==3) {
+		if (requestCode == 0 && resultCode ==2) {
 			CreditCard newCard = data.getExtras().getParcelable("newCard"); 
 			card = newCard;
 			setText(card.getBankName(),card.getCardName(),card.getCardNumber(),card.getCvv2(),card.getIndate(),card.getLimit());

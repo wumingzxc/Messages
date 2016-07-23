@@ -7,7 +7,10 @@ import com.hswu.util.GetContentValues;
 import com.hswu.util.URIField;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -20,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class AddCreditcardActivity extends Activity {
+public class UpdateOrAddCreditcardActivity extends Activity {
 
 
     @BindView(R.id.iv_save) ImageView iv_save;
@@ -33,6 +36,8 @@ public class AddCreditcardActivity extends Activity {
     @BindView(R.id.et_cvv) EditText et_cvv;
     @BindView(R.id.et_indate) EditText et_indate;
     @BindView(R.id.et_limit) EditText et_limit;
+    private CreditCard card;
+    private boolean isUpdate;
     private DatabaseAdapter dbAdapter;
     private Unbinder unbinder;
 
@@ -44,6 +49,16 @@ public class AddCreditcardActivity extends Activity {
         setContentView(R.layout.creditcard_detail_deit);
         unbinder = ButterKnife.bind(this);
         dbAdapter = DatabaseAdapter.getInstance(this);
+
+        isUpdate = getIntent().getExtras().getBoolean("isUpdate");
+        card =(CreditCard) getIntent().getExtras().getParcelable("card");
+
+        if (isUpdate)
+        {
+            setText(card.getBankName(),card.getCardName(),card.getCardNumber(),card.getCvv2(),card.getIndate(),card.getLimit());
+        }
+
+
 
     }
 
@@ -61,20 +76,54 @@ public class AddCreditcardActivity extends Activity {
     void saveOrCancel(View v)
     {
         if (v.getId() == R.id.iv_cancel || v.getId() == R.id.tv_cancel) {
-            AddCreditcardActivity.this.finish();
+            UpdateOrAddCreditcardActivity.this.finish();
+            return;
         }
 
         if (v.getId() == R.id.iv_save || v.getId() == R.id.tv_save) {
 
-            dbAdapter.insertData(URIField.CREDITCARD_URI, GetContentValues.getContentValues(getCreditCard()));
-            setResult(2);
-            AddCreditcardActivity.this.finish();
+            Intent data = new Intent();
+            if (isUpdate)
+            {
+                CreditCard newCard = getCreditCard();
+                dbAdapter.updateData(URIField.CREDITCARD_URI, GetContentValues.getContentValues(newCard), "id = ?", new String[]{card.getId()+""});
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("newCard", newCard);
+                data.putExtras(bundle);
+            }else
+            {
+                dbAdapter.insertData(URIField.CREDITCARD_URI, GetContentValues.getContentValues(getCreditCard()));
+            }
+
+
+            setResult(2, data);
+            UpdateOrAddCreditcardActivity.this.finish();
         }
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+
+    public static Bundle paramNeeded( boolean isUpdate, Parcelable card)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isUpdate",isUpdate);
+        bundle.putParcelable("card", card);
+        return bundle;
+    }
+
+    private void setText(String bankName,String cardName,String cardNum,String cvv,String indate,String limit)
+    {
+        et_bankname.setText(bankName);
+        et_cardname.setText(cardName);
+        et_cardnumber.setText(cardNum);
+        et_cvv.setText(cvv);
+        et_indate.setText(indate);
+        et_limit.setText(limit);
     }
 }

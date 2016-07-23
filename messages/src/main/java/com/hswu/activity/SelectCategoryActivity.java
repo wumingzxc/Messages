@@ -16,7 +16,6 @@ public class SelectCategoryActivity extends Activity implements OnClickListener 
 	private LinearLayout linearlayout_credit_card;
 	private LinearLayout linearlayout_login;
 	private LinearLayout linearlayout_note;
-	private Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,9 @@ public class SelectCategoryActivity extends Activity implements OnClickListener 
 
 		switch (v.getId()) {
 		case R.id.linearlayout_credit_card:
-			intent = new Intent(this, AddCreditcardActivity.class);
+			Intent intent = new Intent(SelectCategoryActivity.this, UpdateOrAddCreditcardActivity.class);
+			Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(false,null);
+			intent.putExtras(bundle);
 			startActivity(intent);
 			this.finish();
 			break;

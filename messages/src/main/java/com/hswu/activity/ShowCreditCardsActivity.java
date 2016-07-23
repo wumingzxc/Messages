@@ -26,7 +26,6 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
     private ImageView iv_back;
     private ListView listview;
     private ImageView iv_add;
-    private Intent intent;
     private CreditcardListItemAdapter myAdapter;
 
     @Override
@@ -95,7 +94,9 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
                 finish();
                 break;
             case R.id.iv_add:
-                intent = new Intent(ShowCreditCardsActivity.this, AddCreditcardActivity.class);
+                Intent intent = new Intent(ShowCreditCardsActivity.this, UpdateOrAddCreditcardActivity.class);
+                Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(false,null);
+                intent.putExtras(bundle);
                 startActivityForResult(intent, 0);
                 break;
         }
