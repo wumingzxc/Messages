@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -21,20 +20,26 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
-public class CreditcardShowActivity extends Activity implements OnClickListener{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
-	private CheckBox cb_favorite;
+public class ShowCreditcardDetailActivity extends Activity{
+
+	@BindView(R.id.cb_favorite) CheckBox cb_favorite;
+	@BindView(R.id.tv_bankname) TextView tv_bankname;
+	@BindView(R.id.tv_cardname) TextView tv_cardname;
+	@BindView(R.id.tv_cardnumber) TextView tv_cardnumber;
+	@BindView(R.id.tv_cvv) TextView tv_cvv;
+	@BindView(R.id.tv_indate) TextView tv_indate;
+	@BindView(R.id.tv_limit) TextView tv_limit;
+	@BindView(R.id.imageview_right) ImageView imageview_right;
+
 	private CreditCard card;
-	private TextView tv_bankname;
-	private TextView tv_cardname;
-	private TextView tv_cardnumber;
-	private TextView tv_cvv;
-	private TextView tv_indate;
-	private TextView tv_limit;
-	private ImageView iv_back;
-	private ImageView imageview_right;
 	private PopupMenu popupMenu;
 	private DatabaseAdapter dbAdapter;
+	private Unbinder unbinder;
 
 
 	@Override
@@ -42,49 +47,39 @@ public class CreditcardShowActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 
 		card =(CreditCard) getIntent().getExtras().getParcelable("card");
-
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.creditcard_detail_show);
+		unbinder = ButterKnife.bind(this);
 
 		init();
-		initRB();
-		setText();
 		setListener();
 	}
 
-
-
-
 	private void init(){
-		cb_favorite =findView(R.id.cb_favorite);
-		tv_bankname =findView(R.id.tv_bankname);
-		tv_cardname =findView(R.id.tv_cardname);
-		tv_cardnumber =findView(R.id.tv_cardnumber);
-		tv_cvv=findView(R.id.tv_cvv);
-		tv_indate =findView(R.id.tv_indate);
-		tv_limit =findView(R.id.tv_limit);
-		iv_back = findView(R.id.iv_back);
-		imageview_right = findView(R.id.imageview_right);
+
 		popupMenu = new PopupMenu(this, imageview_right);
 		popupMenu.inflate(R.menu.contextmenu);
 		dbAdapter = DatabaseAdapter.getInstance(this);
+
+		Drawable drawable_favorite = getResources().getDrawable(R.drawable.rb_favorite_selector);
+		drawable_favorite.setBounds(1, 1, 40, 40);
+		cb_favorite.setCompoundDrawables(drawable_favorite, null, null, null);
+
+		setText(card.getBankName(),card.getCardName(),card.getCardNumber(),card.getCvv2(),card.getIndate(),card.getLimit());
 	}
 
-	private void setText()
+	private void setText(String bankName,String cardName,String cardNum,String cvv,String indate,String limit)
 	{
-		tv_bankname.setText(card.getBankName());
-		tv_cardname.setText(card.getCardName());
-		tv_cardnumber.setText(card.getCardNumber());
-		tv_cvv.setText(card.getCvv2());
-		tv_indate.setText(card.getIndate());
-		tv_limit.setText(card.getLimit());
+		tv_bankname.setText(bankName);
+		tv_cardname.setText(cardName);
+		tv_cardnumber.setText(cardNum);
+		tv_cvv.setText(cvv);
+		tv_indate.setText(indate);
+		tv_limit.setText(limit);
 	}
 
 	private void setListener()
 	{
-		iv_back.setOnClickListener(this);
-		imageview_right.setOnClickListener(this);
-
 		popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 			@Override
@@ -93,15 +88,15 @@ public class CreditcardShowActivity extends Activity implements OnClickListener{
 				switch (item.getItemId()) {
 				
 				case R.id.menuDelete:
-					AlertDialog.Builder builder = new AlertDialog.Builder(CreditcardShowActivity.this);
+					AlertDialog.Builder builder = new AlertDialog.Builder(ShowCreditcardDetailActivity.this);
 					AlertDialog dialog;
 					builder.setMessage("确定删除？");
 					builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dbAdapter.deleteData(URIField.CREDITCARD_URI, "id = ?", new String[]{card.getId()+""});
-							CreditcardShowActivity.this.setResult(1);
-							CreditcardShowActivity.this.finish();
+							ShowCreditcardDetailActivity.this.setResult(1);
+							ShowCreditcardDetailActivity.this.finish();
 						}
 					});
 					builder.setNegativeButton("取消", null);
@@ -109,7 +104,7 @@ public class CreditcardShowActivity extends Activity implements OnClickListener{
 					dialog.show();
 					break;
 				case R.id.menuUpdate:
-					Intent i = new Intent(CreditcardShowActivity.this, UpdateCreditCard.class);
+					Intent i = new Intent(ShowCreditcardDetailActivity.this, UpdateCreditCard.class);
 					Bundle bundle = new Bundle();
 					bundle.putParcelable("card", card);
 					i.putExtras(bundle);
@@ -119,8 +114,22 @@ public class CreditcardShowActivity extends Activity implements OnClickListener{
 				return true;
 			}
 		});
+	}
 
 
+	@OnClick({R.id.imageview_right,R.id.iv_back})
+	void quitOrEdit(View v)
+	{
+		switch (v.getId()) {
+			case R.id.iv_back:
+				setResult(1);
+				finish();
+				break;
+
+			case R.id.imageview_right:
+				popupMenu.show();
+				break;
+		}
 	}
 	
 	@Override
@@ -129,43 +138,13 @@ public class CreditcardShowActivity extends Activity implements OnClickListener{
 		if (requestCode == 0 && resultCode ==3) {
 			CreditCard newCard = data.getExtras().getParcelable("newCard"); 
 			card = newCard;
-			tv_bankname.setText(newCard.getBankName());
-			tv_cardname.setText(newCard.getCardName());
-			tv_cardnumber.setText(newCard.getCardNumber());
-			tv_cvv.setText(newCard.getCvv2());
-			tv_indate.setText(newCard.getIndate());
-			tv_limit.setText(newCard.getLimit());
+			setText(card.getBankName(),card.getCardName(),card.getCardNumber(),card.getCvv2(),card.getIndate(),card.getLimit());
 		}
 	}
 	
-
-	@SuppressWarnings("deprecation")
-	private void initRB()
-	{
-		Drawable drawable_favorite = getResources().getDrawable(R.drawable.rb_favorite_selector);
-		drawable_favorite.setBounds(1, 1, 40, 40);
-		cb_favorite.setCompoundDrawables(drawable_favorite, null, null, null);
-	}
-
-
-	@SuppressWarnings("unchecked")
-	private <T extends View> T findView(int id) {
-		return (T) this.findViewById(id);
-	}
-
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.iv_back:
-			
-			setResult(1);
-			finish();
-			break;
-
-		case R.id.imageview_right:
-			popupMenu.show();
-			break;
-		}
+	protected void onDestroy() {
+		super.onDestroy();
+		unbinder.unbind();
 	}
-
 }

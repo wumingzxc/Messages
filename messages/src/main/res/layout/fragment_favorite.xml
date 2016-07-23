@@ -4,15 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/favotite_top_actionbar" />
-    
-    
-    
-    
-    
-    
-    
-    
+    <include layout="@layout/favotite_top_actionbar"
+             android:layout_height="@dimen/top_actionbar_height"
+             android:layout_width="match_parent"/>
+
     
 
 </LinearLayout>

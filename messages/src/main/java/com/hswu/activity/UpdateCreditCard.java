@@ -36,7 +36,7 @@ public class UpdateCreditCard extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.creditcard_detail);
+		setContentView(R.layout.creditcard_detail_deit);
 		
 		card =(CreditCard) getIntent().getExtras().getParcelable("card");
 		init();

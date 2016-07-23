@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <include layout="@layout/creditcard_detail_top_actionbar" />
+    <include layout="@layout/creditcard_detail_top_actionbar"
+             android:layout_height="@dimen/top_actionbar_height"
+             android:layout_width="match_parent"/>
 
     <ScrollView
         android:layout_width="match_parent"

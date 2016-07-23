@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.hswu.bean.CreditCard;
 import com.hswu.messages.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -23,6 +25,7 @@ public class CreditcardListItemAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView tv;
+        TextView tv_num;
     }
 
     public CreditcardListItemAdapter(Context context, List<CreditCard> cards) {
@@ -56,6 +59,7 @@ public class CreditcardListItemAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.creditcard_listview_item, null);
             viewHolder = new ViewHolder();
             viewHolder.tv = (TextView) convertView.findViewById(R.id.tv);
+            viewHolder.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -65,6 +69,9 @@ public class CreditcardListItemAdapter extends BaseAdapter {
             CreditCard card = cards.get(position);
             if (card.getBankName() != null) {
                 viewHolder.tv.setText(card.getBankName());
+            }
+            if (card.getCardNumber() != null) {
+                viewHolder.tv_num.setText(card.getCardNumber());
             }
         }
 

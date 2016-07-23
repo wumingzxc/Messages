@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/left_drawer_layout"
-    android:layout_width="180dp"
-    android:layout_height="match_parent"
-    android:background="#78000000"
-    android:orientation="vertical" >
+              android:id="@+id/left_drawer_layout"
+              android:layout_width="250dp"
+              android:layout_height="match_parent"
+              android:background="#FFFFFF"
+              android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#3399FF"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/imageview_default_description"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radiogroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
         android:orientation="vertical" >
 
         <RadioButton
             android:id="@+id/rb_favorite"
-            android:layout_marginTop="20dp"
-            android:button="@null"
-            android:drawablePadding="10dp"
+            style="@style/left_drawer_radiobutton_style"
             android:text="@string/favorite"
             android:textColor="@color/rb_textcolor_selector" />
 
         <RadioButton
-            android:id="@+id/rb_folder"
-            android:layout_marginTop="25dp"
-            android:button="@null"
-            android:drawablePadding="10dp"
-            android:text="@string/folder"
+            android:id="@+id/rb_category"
+            style="@style/left_drawer_radiobutton_style"
+            android:text="@string/category"
             android:textColor="@color/rb_textcolor_selector" />
 
         <RadioButton
-            android:id="@+id/rb_category"
-            android:layout_marginTop="25dp"
-            android:button="@null"
-            android:drawablePadding="10dp"
-            android:text="@string/category"
+            android:id="@+id/rb_folder"
+            style="@style/left_drawer_radiobutton_style"
+            android:text="@string/folder"
             android:textColor="@color/rb_textcolor_selector" />
     </RadioGroup>
-
-    <TextView 
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

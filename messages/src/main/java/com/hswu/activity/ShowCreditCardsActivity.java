@@ -19,7 +19,7 @@ import com.hswu.util.URIField;
 
 import java.util.List;
 
-public class CategoryCreditCardActivity extends Activity implements OnClickListener {
+public class ShowCreditCardsActivity extends Activity implements OnClickListener {
 
     private List<CreditCard> cards;
     private DatabaseAdapter dbAdapter;
@@ -34,7 +34,7 @@ public class CategoryCreditCardActivity extends Activity implements OnClickListe
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.category_creditcard_fragment);
+        setContentView(R.layout.activity_creditcards_show);
         init();
 
         myAdapter = new CreditcardListItemAdapter(this, (List<CreditCard>) cards);
@@ -63,7 +63,7 @@ public class CategoryCreditCardActivity extends Activity implements OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 CreditCard card = cards.get(position);
-                Intent i = new Intent(CategoryCreditCardActivity.this, CreditcardShowActivity.class);
+                Intent i = new Intent(ShowCreditCardsActivity.this, ShowCreditcardDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("card", card);
                 i.putExtras(bundle);
@@ -95,7 +95,7 @@ public class CategoryCreditCardActivity extends Activity implements OnClickListe
                 finish();
                 break;
             case R.id.iv_add:
-                intent = new Intent(CategoryCreditCardActivity.this, CreditcardDetailActivity.class);
+                intent = new Intent(ShowCreditCardsActivity.this, AddCreditcardActivity.class);
                 startActivityForResult(intent, 0);
                 break;
         }

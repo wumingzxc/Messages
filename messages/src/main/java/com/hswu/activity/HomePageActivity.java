@@ -12,10 +12,10 @@ import android.widget.RadioGroup;
 
 import com.hswu.fragment.CategoryFragment;
 
-import com.hswu.iface.SuperInterFace;
+import com.hswu.iface.OpenDrawer;
 import com.hswu.messages.R;
 
-public class HomePageActivity extends Activity implements SuperInterFace {
+public class HomePageActivity extends Activity implements OpenDrawer {
 
 	private RadioGroup rg;
 	private RadioButton rb_favorite;
@@ -51,8 +51,8 @@ public class HomePageActivity extends Activity implements SuperInterFace {
 		left_drawer_layout = (LinearLayout) findViewById(R.id.left_drawer_layout);
 		rg = (RadioGroup) findViewById(R.id.radiogroup);
 		rb_favorite = (RadioButton) rg.getChildAt(0);
-		rb_folder = (RadioButton) rg.getChildAt(1);
-		rb_category = (RadioButton) rg.getChildAt(2);
+		rb_category = (RadioButton) rg.getChildAt(1);
+		rb_folder = (RadioButton) rg.getChildAt(2);
 	}
 	
 	

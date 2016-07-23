@@ -47,7 +47,7 @@ public class SelectCategoryActivity extends Activity implements OnClickListener 
 
 		switch (v.getId()) {
 		case R.id.linearlayout_credit_card:
-			intent = new Intent(this, CreditcardDetailActivity.class);
+			intent = new Intent(this, AddCreditcardActivity.class);
 			startActivity(intent);
 			this.finish();
 			break;

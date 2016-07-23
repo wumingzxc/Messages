@@ -1,6 +1,6 @@
 package com.hswu.iface;
 
-public interface SuperInterFace {
+public interface OpenDrawer {
 
 	 void openDrawerLayout();
 	
