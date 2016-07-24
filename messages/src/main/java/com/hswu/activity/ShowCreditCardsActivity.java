@@ -50,7 +50,7 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
         listview = (ListView) findViewById(R.id.listview);
         iv_add = (ImageView) findViewById(R.id.iv_add);
 
-        cards = (List<CreditCard>) dbAdapter.queryData(URIField.CREDITCARD_URI,new CreditCardRowMapper());
+        cards = (List<CreditCard>) dbAdapter.queryDatas(URIField.CREDITCARD_URI,new CreditCardRowMapper());
 
     }
 
@@ -64,8 +64,7 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
 
                 CreditCard card = cards.get(position);
                 Intent i = new Intent(ShowCreditCardsActivity.this, ShowCreditcardDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("card", card);
+                Bundle bundle = ShowCreditcardDetailActivity.paramNeeded(card);
                 i.putExtras(bundle);
                 startActivityForResult(i, 0);
             }
@@ -80,7 +79,7 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
 
         if (requestCode == 0 && (resultCode == 1 || resultCode == 2)) {
             List<CreditCard> newcards;
-            newcards = (List<CreditCard>) dbAdapter.queryData(URIField.CREDITCARD_URI,new CreditCardRowMapper());
+            newcards = (List<CreditCard>) dbAdapter.queryDatas(URIField.CREDITCARD_URI,new CreditCardRowMapper());
             cards.clear();
             cards.addAll(newcards);
             myAdapter.notifyDataSetChanged();

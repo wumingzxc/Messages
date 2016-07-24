@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="#3399FF" >
-
+    
     <ImageView
         android:id="@+id/iv_left"
         android:layout_width="40dp"
@@ -16,14 +16,15 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true" 
-        android:layout_toRightOf="@id/iv_left"
+        android:layout_toEndOf="@id/iv_left"
         android:layout_marginStart="5dp"
         android:textSize="@dimen/top_actionbar_textsize"
         android:textColor="#FFFFFF"
-        android:text="收藏夹"/>
+        android:text="@string/category"/>
 
     <ImageView
         android:id="@+id/iv_add"

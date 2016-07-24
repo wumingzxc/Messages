@@ -10,9 +10,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hswu.adapter.BaseBeanListItemAdapter;
-import com.hswu.bean.CreditCard;
 import com.hswu.bean.Note;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
@@ -50,8 +50,9 @@ public class ShowNotesActivity extends Activity implements OnClickListener {
         iv_back = (ImageView) findViewById(R.id.iv_back);
         listview = (ListView) findViewById(R.id.listview);
         iv_add = (ImageView) findViewById(R.id.iv_add);
+        ((TextView)findViewById(R.id.tv)).setText("安全备注");
 
-        notes = (List<Note>) dbAdapter.queryData(URIField.SAFEREMARK_URI,new NoteRowMapper());
+        notes = (List<Note>) dbAdapter.queryDatas(URIField.SAFEREMARK_URI,new NoteRowMapper());
 
     }
 
@@ -65,8 +66,7 @@ public class ShowNotesActivity extends Activity implements OnClickListener {
 
                 Note note = notes.get(position);
                 Intent i = new Intent(ShowNotesActivity.this, ShowNoteDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("note", note);
+                Bundle bundle = ShowNoteDetailActivity.paramNeeded(note);
                 i.putExtras(bundle);
                 startActivityForResult(i, 0);
             }
@@ -81,7 +81,7 @@ public class ShowNotesActivity extends Activity implements OnClickListener {
 
         if (requestCode == 0 && (resultCode == 1 || resultCode == 2)) {
             List<Note> newNotes;
-            newNotes = (List<Note>) dbAdapter.queryData(URIField.SAFEREMARK_URI,new NoteRowMapper());
+            newNotes = (List<Note>) dbAdapter.queryDatas(URIField.SAFEREMARK_URI,new NoteRowMapper());
             notes.clear();
             notes.addAll(newNotes);
             myAdapter.notifyDataSetChanged();

@@ -2,6 +2,7 @@ package com.hswu.util;
 
 import com.hswu.bean.BaseBean;
 import com.hswu.bean.CreditCard;
+import com.hswu.bean.Favorite;
 import com.hswu.bean.Note;
 
 import android.content.ContentValues;
@@ -14,19 +15,25 @@ public class GetContentValues {
 		ContentValues cv = new ContentValues();
 		if (baseBean instanceof  CreditCard) {
 			CreditCard creditCard = (CreditCard) baseBean;
-			cv.put("bankname", creditCard.getBankName());
-			cv.put("cardname", creditCard.getCardName());
-			cv.put("cardnumber", creditCard.getCardNumber());
-			cv.put("cvv2", creditCard.getCvv2());
-			cv.put("indate", creditCard.getIndate());
-			cv.put("limits", creditCard.getLimit());
+			cv.put(URIField.CREDITCARD_BANKNAME, creditCard.getBankName());
+			cv.put(URIField.CREDITCARD_CARDNAME,creditCard.getCardName());
+			cv.put(URIField.CREDITCARD_CARDNUMBER, creditCard.getCardNumber());
+			cv.put(URIField.CREDITCARD_CVV2, creditCard.getCvv2());
+			cv.put(URIField.CREDITCARD_INDATE, creditCard.getIndate());
+			cv.put(URIField.CREDITCARD_LIMITS, creditCard.getLimit());
 		}
-
 		if (baseBean instanceof Note)
 		{
 			Note note = (Note) baseBean;
-			cv.put("remarktitle", note.getNoteName());
-			cv.put("remarkcontent", note.getNoteContent());
+			cv.put(URIField.SAFEREMARK_REMARKTITLE, note.getNoteName());
+			cv.put(URIField.SAFEREMARK_REMARKCONTENT, note.getNoteContent());
+		}
+
+		if (baseBean instanceof Favorite)
+		{
+			Favorite favorite = (Favorite) baseBean;
+			cv.put(URIField.FAVORITE_ITEMID, favorite.getItemId());
+			cv.put(URIField.FAVORITE_ITEMTYPE,favorite.getItemType());
 		}
 		return cv;
 	}

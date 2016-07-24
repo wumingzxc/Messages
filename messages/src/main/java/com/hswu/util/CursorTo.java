@@ -11,7 +11,7 @@ import android.database.Cursor;
 
 public class CursorTo {
 
-	public static List<? extends BaseBean> cursorToBaseBean(Cursor c, RowMapper rowMapper) {
+	public static List<? extends BaseBean> cursorToBaseBeans(Cursor c, RowMapper rowMapper) {
 		List<BaseBean> cards = new ArrayList<BaseBean>();
 		if (c != null) {
 			while (c.moveToNext()) {
@@ -21,5 +21,4 @@ public class CursorTo {
 		c.close();
 		return cards;
 	}
-
 }

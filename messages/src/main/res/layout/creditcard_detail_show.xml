@@ -112,6 +112,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/cardnumber"
                     android:textColor="#333333"
+                    android:textIsSelectable="true"
                     android:textSize="15sp" />
                    <TextView
                     android:layout_width="match_parent"
@@ -144,6 +145,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/cvv"
+                    android:textIsSelectable="true"
                     android:textColor="#333333"
                     android:textSize="15sp" />
                    <TextView

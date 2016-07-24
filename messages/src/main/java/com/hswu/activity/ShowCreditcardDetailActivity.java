@@ -1,8 +1,12 @@
 package com.hswu.activity;
 
 import com.hswu.bean.CreditCard;
+import com.hswu.bean.Favorite;
+import com.hswu.constant.Geneal;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
+import com.hswu.rowmapper.FavoriteRowMapper;
+import com.hswu.util.GetContentValues;
 import com.hswu.util.URIField;
 
 import android.app.Activity;
@@ -11,10 +15,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -66,6 +72,12 @@ public class ShowCreditcardDetailActivity extends Activity{
 		drawable_favorite.setBounds(1, 1, 40, 40);
 		cb_favorite.setCompoundDrawables(drawable_favorite, null, null, null);
 
+		Favorite favorite = (Favorite) dbAdapter.queryData(URIField.FAVORITE_URI,new FavoriteRowMapper(),URIField.FAVORITE_ITEMID +" = ? and "+URIField.FAVORITE_ITEMTYPE +" = ? ", new String[]{card.getId()+"",URIField.TNAME_CREDITCARD});
+
+		if (favorite != null) {
+			cb_favorite.setChecked(true);
+		}
+
 		setText(card.getBankName(),card.getCardName(),card.getCardNumber(),card.getCvv2(),card.getIndate(),card.getLimit());
 	}
 
@@ -85,33 +97,47 @@ public class ShowCreditcardDetailActivity extends Activity{
 
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				
+
 				switch (item.getItemId()) {
-				
-				case R.id.menuDelete:
-					AlertDialog.Builder builder = new AlertDialog.Builder(ShowCreditcardDetailActivity.this);
-					AlertDialog dialog;
-					builder.setMessage("确定删除？");
-					builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dbAdapter.deleteData(URIField.CREDITCARD_URI, "id = ?", new String[]{card.getId()+""});
-							ShowCreditcardDetailActivity.this.setResult(1);
-							ShowCreditcardDetailActivity.this.finish();
-						}
-					});
-					builder.setNegativeButton("取消", null);
-					dialog  = builder.create();
-					dialog.show();
-					break;
-				case R.id.menuUpdate:
-					Intent i = new Intent(ShowCreditcardDetailActivity.this, UpdateOrAddCreditcardActivity.class);
-                    Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(true,card);
-                    i.putExtras(bundle);
-                    startActivityForResult(i, 0);
-					break;
+
+					case R.id.menuDelete:
+						AlertDialog.Builder builder = new AlertDialog.Builder(ShowCreditcardDetailActivity.this);
+						AlertDialog dialog;
+						builder.setMessage("确定删除？");
+						builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dbAdapter.deleteData(URIField.CREDITCARD_URI, "id = ?", new String[]{card.getId()+""});
+								dbAdapter.deleteData(URIField.FAVORITE_URI, URIField.FAVORITE_ITEMID +" = ? and "+URIField.FAVORITE_ITEMTYPE +" = ? ", new String[]{card.getId()+"",URIField.TNAME_CREDITCARD});
+								ShowCreditcardDetailActivity.this.setResult(1);
+								ShowCreditcardDetailActivity.this.finish();
+							}
+						});
+						builder.setNegativeButton("取消", null);
+						dialog  = builder.create();
+						dialog.show();
+						break;
+					case R.id.menuUpdate:
+						Intent i = new Intent(ShowCreditcardDetailActivity.this, UpdateOrAddCreditcardActivity.class);
+						Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(true,card);
+						i.putExtras(bundle);
+						startActivityForResult(i, 0);
+						break;
 				}
 				return true;
+			}
+		});
+		cb_favorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked)
+				{
+					dbAdapter.insertData(URIField.FAVORITE_URI, GetContentValues.getContentValues(getFavorite()));
+				}else{
+					dbAdapter.deleteData(URIField.FAVORITE_URI, URIField.FAVORITE_ITEMID +" = ? and "+URIField.FAVORITE_ITEMTYPE +" = ? ", new String[]{card.getId()+"",URIField.TNAME_CREDITCARD});
+				}
+				Intent intent = new Intent(Geneal.ACTION_FAVORITE_CHANGE);
+				sendBroadcast(intent);
 			}
 		});
 	}
@@ -131,20 +157,34 @@ public class ShowCreditcardDetailActivity extends Activity{
 				break;
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 0 && resultCode ==2) {
-			CreditCard newCard = data.getExtras().getParcelable("newCard"); 
+			CreditCard newCard = data.getExtras().getParcelable("newCard");
 			card = newCard;
 			setText(card.getBankName(),card.getCardName(),card.getCardNumber(),card.getCvv2(),card.getIndate(),card.getLimit());
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		unbinder.unbind();
+	}
+
+	public static Bundle paramNeeded(Parcelable card)
+	{
+		Bundle bundle = new Bundle();
+		bundle.putParcelable("card", card);
+		return bundle;
+	}
+
+	private Favorite getFavorite()
+	{
+		Favorite favorite = new Favorite(card.getId(),URIField.TNAME_CREDITCARD);
+
+		return favorite;
 	}
 }
