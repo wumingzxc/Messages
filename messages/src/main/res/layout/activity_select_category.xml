@@ -30,7 +30,7 @@
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:contentDescription="@string/imageview_default_description"
-            android:src="@mipmap/type_note" />
+            android:src="@drawable/type_note" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:contentDescription="@string/imageview_default_description"
-            android:src="@mipmap/type_credit_card" />
+            android:src="@drawable/type_credit_card" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:contentDescription="@string/imageview_default_description"
-            android:src="@mipmap/type_login" />
+            android:src="@drawable/type_login" />
 
         <TextView
             android:layout_width="wrap_content"

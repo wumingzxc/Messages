@@ -11,9 +11,9 @@ import android.widget.TextView;
 import com.hswu.bean.BaseBean;
 import com.hswu.bean.CreditCard;
 import com.hswu.bean.Note;
-import com.hswu.messages.R;
 
 import java.util.List;
+import com.hswu.messages.R;
 
 /**
  * Created by HandsomeWu on 2016/7/22.
@@ -72,7 +72,7 @@ public class BaseBeanListItemAdapter extends BaseAdapter {
 
             if (baseBean.get(position) instanceof  CreditCard){
                 CreditCard card = (CreditCard) baseBean.get(position);
-                viewHolder.iv.setImageResource(R.mipmap.type_credit_card);
+                viewHolder.iv.setImageResource(R.drawable.type_credit_card);
                 if (card.getBankName() != null) {
                     viewHolder.tv.setText(card.getBankName());
                 }
@@ -83,7 +83,7 @@ public class BaseBeanListItemAdapter extends BaseAdapter {
 
             if (baseBean.get(position) instanceof Note){
                 Note note = (Note) baseBean.get(position);
-                viewHolder.iv.setImageResource(R.mipmap.type_note);
+                viewHolder.iv.setImageResource(R.drawable.type_note);
                 if (note.getNoteName() != null) {
                     viewHolder.tv.setText(note.getNoteName());
                 }

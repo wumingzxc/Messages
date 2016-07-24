@@ -28,7 +28,7 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="25dp"
                     android:contentDescription="@string/imageview_default_description"
-                    android:src="@mipmap/type_credit_card" />
+                    android:src="@drawable/type_credit_card" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

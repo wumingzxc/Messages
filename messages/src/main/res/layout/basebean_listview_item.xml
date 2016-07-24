@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:contentDescription="@string/imageview_default_description"
-        android:src="@mipmap/type_credit_card"
+        android:src="@drawable/type_credit_card"
         />
 
     <LinearLayout

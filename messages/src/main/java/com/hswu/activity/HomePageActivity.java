@@ -11,7 +11,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.hswu.fragment.CategoryFragment;
-
 import com.hswu.iface.OpenDrawer;
 import com.hswu.messages.R;
 
