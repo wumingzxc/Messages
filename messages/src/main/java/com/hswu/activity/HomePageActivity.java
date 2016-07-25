@@ -133,4 +133,15 @@ public class HomePageActivity extends Activity implements OpenDrawer {
 			transaction.hide(favoriteFragment);
 		}
 	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+
+		if (favoriteFragment != null)
+		{
+			favoriteFragment.listviewItemColorChanged();
+		}
+
+	}
 }

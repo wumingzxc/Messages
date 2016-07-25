@@ -1,7 +1,10 @@
 package com.hswu.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,9 +16,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hswu.adapter.BaseBeanListItemAdapter;
+import com.hswu.bean.CreditCard;
 import com.hswu.bean.Note;
+import com.hswu.constant.Geneal;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
+import com.hswu.rowmapper.CreditCardRowMapper;
 import com.hswu.rowmapper.NoteRowMapper;
 import com.hswu.util.URIField;
 
@@ -43,6 +49,9 @@ public class ShowNotesActivity extends Activity implements OnClickListener {
 
         setListener();
 
+        IntentFilter filter = new IntentFilter(Geneal.ACTION_DATA_CHANGE);
+        registerReceiver(updataBroadcastReceiver, filter);
+
     }
 
     private void init() {
@@ -65,28 +74,29 @@ public class ShowNotesActivity extends Activity implements OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Note note = notes.get(position);
+                myAdapter.setSelectedPosition(position);
+                myAdapter.notifyDataSetChanged();
                 Intent i = new Intent(ShowNotesActivity.this, ShowNoteDetailActivity.class);
                 Bundle bundle = ShowNoteDetailActivity.paramNeeded(note);
                 i.putExtras(bundle);
-                startActivityForResult(i, 0);
+                startActivity(i);
             }
         });
 
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    private BroadcastReceiver updataBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
-        if (requestCode == 0 && (resultCode == 1 || resultCode == 2)) {
             List<Note> newNotes;
             newNotes = (List<Note>) dbAdapter.queryDatas(URIField.SAFEREMARK_URI,new NoteRowMapper());
             notes.clear();
             notes.addAll(newNotes);
             myAdapter.notifyDataSetChanged();
         }
-    }
+    };
 
 
     @Override
@@ -99,9 +109,21 @@ public class ShowNotesActivity extends Activity implements OnClickListener {
                 Intent intent = new Intent(ShowNotesActivity.this, UpdateOrAddNoteActivity.class);
                 Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(false,null);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
+                startActivity(intent);
                 break;
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(updataBroadcastReceiver);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        myAdapter.setSelectedPosition(-1);
+        myAdapter.notifyDataSetChanged();
+    }
 }

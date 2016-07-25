@@ -2,8 +2,11 @@ package com.hswu.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -23,7 +26,9 @@ import com.hswu.bean.Note;
 import com.hswu.constant.Geneal;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
+import com.hswu.rowmapper.CreditCardRowMapper;
 import com.hswu.rowmapper.FavoriteRowMapper;
+import com.hswu.rowmapper.NoteRowMapper;
 import com.hswu.util.GetContentValues;
 import com.hswu.util.URIField;
 
@@ -58,6 +63,8 @@ public class ShowNoteDetailActivity extends Activity{
 
 		init();
 		setListener();
+		IntentFilter filter = new IntentFilter(Geneal.ACTION_DATA_CHANGE);
+		registerReceiver(updataBroadcastReceiver, filter);
 	}
 
 	private void init(){
@@ -115,7 +122,7 @@ public class ShowNoteDetailActivity extends Activity{
 					Intent i = new Intent(ShowNoteDetailActivity.this, UpdateOrAddNoteActivity.class);
                     Bundle bundle = UpdateOrAddNoteActivity.paramNeeded(true,note);
                     i.putExtras(bundle);
-                    startActivityForResult(i, 0);
+                    startActivity(i);
 					break;
 				}
 				return true;
@@ -130,7 +137,7 @@ public class ShowNoteDetailActivity extends Activity{
 				}else{
 					dbAdapter.deleteData(URIField.FAVORITE_URI, URIField.FAVORITE_ITEMID +" = ? and "+URIField.FAVORITE_ITEMTYPE +" = ? ", new String[]{note.getId()+"",URIField.TNAME_SAFEREMARK});
 				}
-				Intent intent = new Intent(Geneal.ACTION_FAVORITE_CHANGE);
+				Intent intent = new Intent(Geneal.ACTION_DATA_CHANGE);
 				sendBroadcast(intent);
 
 			}
@@ -143,7 +150,6 @@ public class ShowNoteDetailActivity extends Activity{
 	{
 		switch (v.getId()) {
 			case R.id.iv_back:
-				setResult(1);
 				finish();
 				break;
 
@@ -152,20 +158,19 @@ public class ShowNoteDetailActivity extends Activity{
 				break;
 		}
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 0 && resultCode ==2) {
-			Note newNote = data.getExtras().getParcelable("newNote");
-			note = newNote;
+
+	private BroadcastReceiver updataBroadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			note =(Note) DatabaseAdapter.getInstance(context).queryData(URIField.SAFEREMARK_URI, new NoteRowMapper(), " id = ?", new String[]{note.getId() + ""});
 			setText(note.getNoteName(),note.getNoteContent());
 		}
-	}
+	};
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		unregisterReceiver(updataBroadcastReceiver);
 		unbinder.unbind();
 	}
 

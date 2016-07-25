@@ -6,7 +6,7 @@
               android:background="#FFFFFF"
               android:orientation="vertical" >
 
-    <LinearLayout
+    <com.hswu.customview.MyLinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="#3399FF"
@@ -19,7 +19,7 @@
             android:layout_marginStart="10dp"
             android:contentDescription="@string/imageview_default_description"
             android:src="@mipmap/ic_launcher" />
-    </LinearLayout>
+    </com.hswu.customview.MyLinearLayout>
 
     <RadioGroup
         android:id="@+id/radiogroup"

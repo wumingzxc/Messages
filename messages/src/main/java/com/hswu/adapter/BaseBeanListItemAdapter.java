@@ -1,6 +1,7 @@
 package com.hswu.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,11 @@ public class BaseBeanListItemAdapter extends BaseAdapter {
 
     private List<? extends BaseBean> baseBean;
     private Context context;
+    private int selectedPosition = -1;
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
 
     class ViewHolder {
         ImageView iv;
@@ -67,6 +73,16 @@ public class BaseBeanListItemAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        if (position == selectedPosition)
+        {
+            convertView.setBackgroundColor(0xFF3399FF);
+        }else
+        {
+            convertView.setBackgroundColor(0xFFFFFFFF);
+        }
+
+
         if (baseBean != null) {
 
 

@@ -12,11 +12,15 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hswu.activity.HomePageActivity;
+import com.hswu.activity.ShowCreditcardDetailActivity;
+import com.hswu.activity.ShowNoteDetailActivity;
+import com.hswu.activity.ShowNotesActivity;
 import com.hswu.adapter.BaseBeanListItemAdapter;
 import com.hswu.bean.BaseBean;
 import com.hswu.bean.CreditCard;
@@ -77,7 +81,7 @@ public class FavoriteFragment extends Fragment{
 
 		setListener();
 
-		IntentFilter filter = new IntentFilter(Geneal.ACTION_FAVORITE_CHANGE);
+		IntentFilter filter = new IntentFilter(Geneal.ACTION_DATA_CHANGE);
 		getActivity().registerReceiver(updataBroadcastReceiver,filter);
 
 		return rootView;
@@ -102,6 +106,39 @@ public class FavoriteFragment extends Fragment{
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				((HomePageActivity)getActivity()).openDrawerLayout();
+			}
+		});
+
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				baseBeanListItemAdapter.setSelectedPosition(position);
+				baseBeanListItemAdapter.notifyDataSetChanged();
+
+				Intent i = null;
+				Bundle bundle = null;
+				Favorite favorite = favorites.get(position);
+				if (favorite.getItemType().equals(URIField.TNAME_CREDITCARD))
+				{
+					CreditCard card = (CreditCard) databaseAdapter.queryData(URIField.CREDITCARD_URI,new CreditCardRowMapper()," id = ?",new String[]{favorite.getItemId()+""});
+
+					 i = new Intent(getActivity(), ShowCreditcardDetailActivity.class);
+					 bundle = ShowCreditcardDetailActivity.paramNeeded(card);
+
+				}
+				if (favorite.getItemType().equals(URIField.TNAME_SAFEREMARK))
+				{
+					Note note = (Note) databaseAdapter.queryData(URIField.SAFEREMARK_URI,new NoteRowMapper()," id = ?",new String[]{favorite.getItemId()+""});
+					i = new Intent(getActivity(), ShowNoteDetailActivity.class);
+					bundle = ShowNoteDetailActivity.paramNeeded(note);
+				}
+				if (i != null && bundle != null)
+				{
+					i.putExtras(bundle);
+					startActivity(i);
+				}
 			}
 		});
 	}
@@ -151,6 +188,15 @@ public class FavoriteFragment extends Fragment{
 			baseBeanListItemAdapter.notifyDataSetChanged();
 		}
 	};
+
+	public void listviewItemColorChanged()
+	{
+		baseBeanListItemAdapter.setSelectedPosition(-1);
+		baseBeanListItemAdapter.notifyDataSetChanged();
+
+	}
+
+
 
 
 }

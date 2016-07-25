@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/saferemark"
                         android:textColor="#333333"
-                        android:textSize="17sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -51,17 +52,35 @@
                         android:layout_marginStart="5dp"
                         android:text="@string/saferemark"
                         android:textColor="#333333"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_marginTop="5dp"
+                android:background="#48C6C7C7"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:text="备注"
+                android:textSize="16sp"
+                android:textColor="#3399FF"
+                />
 
             <TextView
                 android:id="@+id/tv_notecontent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="18sp"
                 android:singleLine="false"
                 />
 

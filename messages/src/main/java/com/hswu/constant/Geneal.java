@@ -6,5 +6,5 @@ package com.hswu.constant;
 
 public class Geneal {
 
-    public static final String ACTION_FAVORITE_CHANGE ="handsomewu.intent.action.favorite_changed";
+    public static final String ACTION_DATA_CHANGE ="handsomewu.intent.action.data_changed";
 }

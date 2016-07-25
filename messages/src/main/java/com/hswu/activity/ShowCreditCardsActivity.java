@@ -1,7 +1,10 @@
 package com.hswu.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +16,7 @@ import android.widget.ListView;
 
 import com.hswu.adapter.BaseBeanListItemAdapter;
 import com.hswu.bean.CreditCard;
+import com.hswu.constant.Geneal;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
 import com.hswu.rowmapper.CreditCardRowMapper;
@@ -41,6 +45,8 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
         listview.setAdapter(myAdapter);
 
         setListener();
+        IntentFilter filter = new IntentFilter(Geneal.ACTION_DATA_CHANGE);
+        registerReceiver(updataBroadcastReceiver, filter);
 
     }
 
@@ -63,30 +69,17 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 CreditCard card = cards.get(position);
+                myAdapter.setSelectedPosition(position);
+                myAdapter.notifyDataSetChanged();
                 Intent i = new Intent(ShowCreditCardsActivity.this, ShowCreditcardDetailActivity.class);
                 Bundle bundle = ShowCreditcardDetailActivity.paramNeeded(card);
                 i.putExtras(bundle);
-                startActivityForResult(i, 0);
+                startActivity(i);
             }
         });
 
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 0 && (resultCode == 1 || resultCode == 2)) {
-            List<CreditCard> newcards;
-            newcards = (List<CreditCard>) dbAdapter.queryDatas(URIField.CREDITCARD_URI,new CreditCardRowMapper());
-            cards.clear();
-            cards.addAll(newcards);
-            myAdapter.notifyDataSetChanged();
-        }
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -97,9 +90,33 @@ public class ShowCreditCardsActivity extends Activity implements OnClickListener
                 Intent intent = new Intent(ShowCreditCardsActivity.this, UpdateOrAddCreditcardActivity.class);
                 Bundle bundle = UpdateOrAddCreditcardActivity.paramNeeded(false,null);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
+                startActivity(intent);
                 break;
         }
     }
 
+    private BroadcastReceiver updataBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            List<CreditCard> newcards;
+            newcards = (List<CreditCard>) dbAdapter.queryDatas(URIField.CREDITCARD_URI,new CreditCardRowMapper());
+            cards.clear();
+            cards.addAll(newcards);
+            myAdapter.notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(updataBroadcastReceiver);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        myAdapter.setSelectedPosition(-1);
+        myAdapter.notifyDataSetChanged();
+    }
 }

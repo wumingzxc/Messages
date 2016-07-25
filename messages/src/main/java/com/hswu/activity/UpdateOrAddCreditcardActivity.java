@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.hswu.bean.CreditCard;
+import com.hswu.constant.Geneal;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
 import com.hswu.util.GetContentValues;
@@ -74,21 +75,16 @@ public class UpdateOrAddCreditcardActivity extends Activity {
 
         if (v.getId() == R.id.iv_save || v.getId() == R.id.tv_save) {
 
-            Intent data = new Intent();
             if (isUpdate)
             {
                 CreditCard newCard = getCreditCard();
                 dbAdapter.updateData(URIField.CREDITCARD_URI, GetContentValues.getContentValues(newCard), "id = ?", new String[]{card.getId()+""});
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("newCard", newCard);
-                data.putExtras(bundle);
             }else
             {
                 dbAdapter.insertData(URIField.CREDITCARD_URI, GetContentValues.getContentValues(getCreditCard()));
             }
-
-
-            setResult(2, data);
+            Intent intent = new Intent(Geneal.ACTION_DATA_CHANGE);
+            sendBroadcast(intent);
             UpdateOrAddCreditcardActivity.this.finish();
         }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hswu.bean.CreditCard;
 import com.hswu.bean.Note;
+import com.hswu.constant.Geneal;
 import com.hswu.database.DatabaseAdapter;
 import com.hswu.messages.R;
 import com.hswu.util.GetContentValues;
@@ -67,19 +68,16 @@ public class UpdateOrAddNoteActivity extends Activity {
 
         if (v.getId() == R.id.iv_save || v.getId() == R.id.tv_save) {
 
-            Intent data = new Intent();
             if (isUpdate)
             {
                 Note newNote = getNote();
                 dbAdapter.updateData(URIField.SAFEREMARK_URI, GetContentValues.getContentValues(newNote), "id = ?", new String[]{note.getId()+""});
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("newNote", newNote);
-                data.putExtras(bundle);
             }else
             {
                 dbAdapter.insertData(URIField.SAFEREMARK_URI, GetContentValues.getContentValues(getNote()));
             }
-            setResult(2, data);
+            Intent intent = new Intent(Geneal.ACTION_DATA_CHANGE);
+            sendBroadcast(intent);
             UpdateOrAddNoteActivity.this.finish();
         }
 
