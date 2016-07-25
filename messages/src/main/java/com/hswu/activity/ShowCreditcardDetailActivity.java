@@ -121,8 +121,9 @@ public class ShowCreditcardDetailActivity extends Activity {
 							public void onClick(DialogInterface dialog, int which) {
 								dbAdapter.deleteData(URIField.CREDITCARD_URI, "id = ?", new String[]{card.getId() + ""});
 								dbAdapter.deleteData(URIField.FAVORITE_URI, URIField.FAVORITE_ITEMID + " = ? and " + URIField.FAVORITE_ITEMTYPE + " = ? ", new String[]{card.getId() + "", URIField.TNAME_CREDITCARD});
-								ShowCreditcardDetailActivity.this.setResult(1);
-								ShowCreditcardDetailActivity.this.finish();
+								Intent intent = new Intent(Geneal.ACTION_DATA_CHANGE);
+								sendBroadcast(intent);
+								finish();
 							}
 						});
 						builder.setNegativeButton("取消", null);
@@ -170,8 +171,13 @@ public class ShowCreditcardDetailActivity extends Activity {
 	private BroadcastReceiver updataBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			card = (CreditCard) DatabaseAdapter.getInstance(context).queryData(URIField.CREDITCARD_URI, new CreditCardRowMapper(), " id = ? ", new String[]{card.getId() + ""});
-			setText(card.getBankName(), card.getCardName(), card.getCardNumber(), card.getCvv2(), card.getIndate(), card.getLimit());
+
+			CreditCard newCard = (CreditCard) DatabaseAdapter.getInstance(context).queryData(URIField.CREDITCARD_URI, new CreditCardRowMapper(), " id = ? ", new String[]{card.getId() + ""});
+			if (newCard != null)
+			{
+				card = newCard;
+				setText(card.getBankName(), card.getCardName(), card.getCardNumber(), card.getCvv2(), card.getIndate(), card.getLimit());
+			}
 		}
 	};
 

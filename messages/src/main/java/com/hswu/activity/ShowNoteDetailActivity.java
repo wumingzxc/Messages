@@ -110,8 +110,9 @@ public class ShowNoteDetailActivity extends Activity{
 						public void onClick(DialogInterface dialog, int which) {
 							dbAdapter.deleteData(URIField.SAFEREMARK_URI, "id = ?", new String[]{note.getId()+""});
 							dbAdapter.deleteData(URIField.SAFEREMARK_URI, URIField.FAVORITE_ITEMID +" = ? and "+URIField.FAVORITE_ITEMTYPE +" = ? ", new String[]{note.getId()+"",URIField.TNAME_SAFEREMARK});
-							ShowNoteDetailActivity.this.setResult(1);
-							ShowNoteDetailActivity.this.finish();
+							Intent intent = new Intent(Geneal.ACTION_DATA_CHANGE);
+							sendBroadcast(intent);
+							finish();
 						}
 					});
 					builder.setNegativeButton("取消", null);
@@ -162,8 +163,13 @@ public class ShowNoteDetailActivity extends Activity{
 	private BroadcastReceiver updataBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			note =(Note) DatabaseAdapter.getInstance(context).queryData(URIField.SAFEREMARK_URI, new NoteRowMapper(), " id = ?", new String[]{note.getId() + ""});
-			setText(note.getNoteName(),note.getNoteContent());
+
+			Note newNote =(Note) DatabaseAdapter.getInstance(context).queryData(URIField.SAFEREMARK_URI, new NoteRowMapper(), " id = ?", new String[]{note.getId() + ""});
+			if (newNote != null)
+			{
+				note = newNote;
+				setText(note.getNoteName(),note.getNoteContent());
+			}
 		}
 	};
 	
