@@ -15,17 +15,23 @@ import java.util.List;
 public class DatabaseAdapter {
 
 	private ContentResolver contentResolver;
-	private static DatabaseAdapter instance;
+	private volatile static DatabaseAdapter instance;
 	
 	private  DatabaseAdapter(Context context)
 	{
 		contentResolver = context.getContentResolver();
 	}
 		
-	public static synchronized DatabaseAdapter getInstance(Context context)
+	public static  DatabaseAdapter getInstance(Context context)
 	{
 		if (null == instance) {
-			instance = new DatabaseAdapter(context);
+			synchronized(DatabaseAdapter.class)
+			{
+				if (null == instance)
+				{
+					instance = new DatabaseAdapter(context);
+				}
+			}
 		}
 		return instance;
 	}
