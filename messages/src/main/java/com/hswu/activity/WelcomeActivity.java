@@ -8,6 +8,7 @@ import android.view.Window;
 
 import com.hswu.constant.Geneal;
 import com.hswu.messages.R;
+import com.hswu.util.ActivityController;
 import com.hswu.util.PreferencesUtils;
 
 import butterknife.ButterKnife;
@@ -29,6 +30,8 @@ public class WelcomeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
 
+        ActivityController.addActivity(this);
+
         unbinder = ButterKnife.bind(this);
 
         if (PreferencesUtils.hasContainKey(this,Geneal.PREFERENCE,"password"))
@@ -47,12 +50,12 @@ public class WelcomeActivity extends Activity {
     {
         Intent intent = new Intent(this,MakeMasterPasswordActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityController.removeActivity(this);
         unbinder.unbind();
     }
 }

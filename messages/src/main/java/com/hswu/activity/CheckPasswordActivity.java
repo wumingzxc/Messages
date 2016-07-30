@@ -32,6 +32,7 @@ public class CheckPasswordActivity extends Activity {
 
     @BindView(R.id.editText)EditText editText;
     @BindView(R.id.image)ImageView image;
+    @BindView(R.id.out_image)ImageView out_image;
     private Unbinder unbinder;
     private boolean isFromWelcomeActivity;
     private RotateAnimation rotateAnimation;
@@ -60,13 +61,6 @@ public class CheckPasswordActivity extends Activity {
                 editText.setInputType(InputType.TYPE_CLASS_TEXT);
 
                 editText.setText("解密中");
-
-
-                InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService( Context.INPUT_METHOD_SERVICE);
-
-                if (imm.isActive()) {
-                    imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                }
                 image.startAnimation(rotateAnimation);
                 return true;
             }
@@ -95,6 +89,7 @@ public class CheckPasswordActivity extends Activity {
                 if (password.equals(PreferencesUtils.getStringPreference(CheckPasswordActivity.this, Geneal.PREFERENCE,"password","12345")))
                 {
                     editText.setText("已解锁");
+                    out_image.setImageResource(R.drawable.keyhole_green_ring);
 
                     if (isFromWelcomeActivity)
                     {
@@ -102,10 +97,20 @@ public class CheckPasswordActivity extends Activity {
                         startActivity(intent);
                     }
                     finish();
+                    return;
                 }else{
-                    editText.setText("");
+                    out_image.setImageResource(R.drawable.keyhole_red_ring);
+
                     editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
+
+                InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService( Context.INPUT_METHOD_SERVICE);
+
+                if (imm.isActive()) {
+                    imm.hideSoftInputFromWindow(editText.getApplicationWindowToken(), 0);
+                }
+
+                editText.setText("");
             }
         });
     }

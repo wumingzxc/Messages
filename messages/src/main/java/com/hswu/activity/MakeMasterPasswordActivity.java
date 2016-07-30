@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hswu.constant.Geneal;
 import com.hswu.messages.R;
+import com.hswu.util.ActivityController;
 import com.hswu.util.MD5Util;
 import com.hswu.util.PreferencesUtils;
 
@@ -38,14 +40,22 @@ public class MakeMasterPasswordActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_masterpassword);
 
+        ActivityController.addActivity(this);
+
         unbinder = ButterKnife.bind(this);
 
 
     }
 
-    @OnClick(R.id.button_commit)
+    @OnClick({R.id.button_commit,R.id.iv_back})
     void click(View view)
     {
+        if (view.getId() == R.id.iv_back)
+        {
+            finish();
+            return;
+        }
+
         String password = MD5Util.md5(editText_one.getText().toString());
         String password_again = MD5Util.md5(editText_two.getText().toString());
 
@@ -58,7 +68,7 @@ public class MakeMasterPasswordActivity extends Activity {
         PreferencesUtils.setStringPreferences(MakeMasterPasswordActivity.this, Geneal.PREFERENCE,"password",password);
         Intent intent = new Intent(MakeMasterPasswordActivity.this,HomePageActivity.class);
         startActivity(intent);
-        finish();
+        ActivityController.finishAll();
     }
 
 
@@ -66,6 +76,7 @@ public class MakeMasterPasswordActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityController.removeActivity(this);
         unbinder.unbind();
     }
 }
