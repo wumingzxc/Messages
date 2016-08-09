@@ -31,7 +31,6 @@ public class HomePageActivity extends Activity implements OpenDrawer {
 
 	private FragmentManager fragmentManager;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
